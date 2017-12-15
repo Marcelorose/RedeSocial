@@ -26,7 +26,7 @@ struct Post {
 	}
 
 	void toView() {
-		cout << "Criador do Post: " << this->criadorPost << " | Post: " << this->oPost;
+		cout << "@" << this->criadorPost << "\n\n" << this->oPost << "\n_________________";
 	}
 };
 
@@ -316,33 +316,29 @@ struct ListaUsuario {
 		
 	}
 
-	bool verificarUsuario(Usuario *novoUsuario) {
+	void verificarUsuario(Usuario *novoUsuario) {
 		ElementoUsuario *atual = this->primeiro;
 		string nomeUsuario;
 			verificarMaioridade(novoUsuario);
-			while (atual != NULL) {
-				if (novoUsuario->userName == atual->usuario->userName) {
-					do
-					{
-						cout << "\nUsername ja usado\n\nNome de Usuario: ";
-						cin >> nomeUsuario;
-						novoUsuario->userName = nomeUsuario;
-					} while (novoUsuario->userName == atual->usuario->userName);
-					
-					return true;
-					break;
+			for (int i = 0; i < 15; i++)
+			{
+				while (atual != NULL) {
+					if (novoUsuario->userName == atual->usuario->userName) {
+						do
+						{
+							cout << "\nUsername ja usado\n\nNome de Usuario: ";
+							cin >> nomeUsuario;
+							novoUsuario->userName = nomeUsuario;
+						} while (novoUsuario->userName == atual->usuario->userName);
+					}
+					atual = atual->proximoElemento;
 				}
-				else if (true)
-				{
-
-				}
-				atual = atual->proximoElemento;
 			}
-		return false;
 	}
 
-	void entrarUsuario(string userName, string senha) {
+	string entrarUsuario(string userName, string senha) {
 		ElementoUsuario *atual = this->primeiro;
+		
 
 		while (atual != NULL) {
 			if (atual->usuario->userName == userName)
@@ -351,22 +347,24 @@ struct ListaUsuario {
 				{
 					cout << "Logado\n";
 					system("cls");
-					return;
+					return userName;
 				}
-				do
+				else
 				{
-					cout << "Senha errada! Tente novamente \nSenha: ";
-					cin >> senha;
-				} while (atual->usuario->senha != senha);	
+					do
+					{
+						cout << "Senha errada! Tente novamente \nSenha: ";
+						cin >> senha;
+					} while (atual->usuario->senha != senha);
+					cout << "Logado\n";
+					return userName;
+				}	
 			}
-			else if (atual->usuario->userName != userName)
-			{
-				cout << "Este usuario nao existe! Tente novamente \nUsername: ";
-				cin >> userName;
-			}
-
 			atual = atual->proximoElemento;
 		}
+		cout << "Usuario nao existe! Tente novamente \nUsername: ";
+			cin >> userName;
+			entrarUsuario(userName, senha);
 	}
 
 };
@@ -416,7 +414,7 @@ struct ListaPost {
 
 		if (atual == NULL)
 		{
-			cout << "Nao existe nenhum post ainda\n";
+			cout << "Nao existe nenhum post ainda\n\n";
 		}
 
 		while (atual != NULL) {
