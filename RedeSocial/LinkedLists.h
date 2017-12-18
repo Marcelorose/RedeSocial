@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 using namespace std;
 
 
@@ -30,6 +31,7 @@ struct Post {
 	}
 };
 
+
 struct Usuario {
 	string userName;
 	string senha;
@@ -40,7 +42,6 @@ struct Usuario {
 	string post;
 
 	Usuario() {
-		//Usuario *novo = new Usuario;
 		string umUserName;
 		string umaSenha;
 		string umaConfirmacaoSenha;
@@ -88,7 +89,6 @@ struct Usuario {
 
 };
 
-
 struct ElementoUsuario {
 	Usuario *usuario;
 	ElementoUsuario *proximoElemento;
@@ -114,6 +114,10 @@ struct ListaUsuario {
 	void mostrarElementos() {
 		ElementoUsuario *atual = this->primeiro;
 
+		if (atual == NULL)
+		{
+			cout << "Nao existe nenhum usuario ainda\n";
+		}
 		while (atual != NULL) {
 			atual->usuario->toView();
 			cout << endl;
@@ -137,6 +141,16 @@ struct ListaUsuario {
 				atual = atual->proximoElemento;
 			}
 		}
+	}
+
+	void inserirData(Usuario *Usuario) {
+		cout << "Dia: ";
+		cin >> Usuario->dataDeNascimento.dia;
+		cout << "Mes: ";
+		cin >> Usuario->dataDeNascimento.mes;
+		cout << "Ano: ";
+		cin >> Usuario->dataDeNascimento.ano;
+		cout << endl;
 	}
 
 	void verificarMaioridade(Usuario *Usuario) {
@@ -304,16 +318,27 @@ struct ListaUsuario {
 			ano += 9;
 		}
 
-		ano += 2000;
+		ano = ano + 2000;
 
-		if (Usuario->dataDeNascimento.ano >= 2000)
+
+		if (ano - Usuario->dataDeNascimento.ano < 18)
 		{
-			if (Usuario->dataDeNascimento.ano - ano < 18)
-			{
-				cout << "Menor de idade!";
-			}
+			cout << "\nMenor de idade!" << endl;
+			inserirData(Usuario);
+			verificarMaioridade(Usuario);
+		}			
+		if (ano - Usuario->dataDeNascimento.ano == 18 && Usuario->dataDeNascimento.mes > mes)
+		{
+			cout << "\nMenor de idade!" << endl;
+			inserirData(Usuario);
+			verificarMaioridade(Usuario);
 		}
-		
+		if (ano - Usuario->dataDeNascimento.ano == 18 && Usuario->dataDeNascimento.mes == mes && Usuario->dataDeNascimento.dia > dia)
+		{
+			cout << "\nMenor de idade!" << endl;
+			inserirData(Usuario);
+			verificarMaioridade(Usuario);
+		}
 	}
 
 	void verificarUsuario(Usuario *novoUsuario) {
